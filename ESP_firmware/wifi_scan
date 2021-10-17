@@ -22,14 +22,17 @@ void loop()
     Serial.println("scan start");
 
     // WiFi.scanNetworks will return the number of networks found
-    int n = WiFi.scanNetworks(); //без функции не выводятся данные с SSID и RSSI
+    //без функции не выводятся данные с SSID и RSSI
+    //без функции итерация мгновенна, с ней - 5 секунд
+    int n = WiFi.scanNetworks();
     Serial.println("scan done");
     if (n == 0) {
         Serial.println("no networks found");
-    } else {
+    } else
+    {
         Serial.print(n);
         Serial.println(" networks found");
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < 3; ++i) {
             // Print SSID and RSSI for each network found
             Serial.print(i + 1);
             Serial.print(": ");
@@ -37,7 +40,7 @@ void loop()
             Serial.print(" (");
             Serial.print(WiFi.RSSI(i)); //Мощность сигнала
             Serial.print(")");
-            Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
+            Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*"); //Тип шифрования
             delay(10);
         }
     }
