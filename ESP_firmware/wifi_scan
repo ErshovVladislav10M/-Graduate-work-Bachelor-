@@ -44,5 +44,5 @@ void loop()
     Serial.println("");
 
     // Wait a bit before scanning again
-    delay(5000);
+    delay(5000); //примерно 5 секунд
 }
