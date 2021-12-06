@@ -1,0 +1,93 @@
+#include <WiFi.h>
+
+// Переменная для синхронизации
+// state и state_lv из отрезка [0, 9]
+bool is_sender = false;
+int state;
+float state_lv;
+
+// Переменные и счетчики
+int n_neighbors = 10; // Количество сосеседей, из которых выбираем
+int n_neighbors_vibor = 5; // Количество соседей, которые выбираем случайно из n_neighbors
+float alpha = 0.5; // Коэффициент расчета протокола LV
+float grad = 0.2; // разница между state и state_lv
+
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Start setup");
+  state = 0;
+  state_lv = 0;
+}
+
+
+void loop() {
+  // Считать данные из Serial. Если в serial что то есть, то мы считываем
+  // его и записывамаем как state [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]. Если нет то state = state_lv
+  // if (Serial.available() > 0){
+  //   state = Serial.parseInt();
+  // }
+  // else if (is_sender){
+  if (is_sender){
+    state_lv = state;
+  }
+  else {
+    state = round(state_lv);
+  }
+  // Serial.println(state);
+
+  // Записываем данные для передачи соседям в имя сети
+  // int apssid_int = 111 * 10 + state_lv; // 111 в начале название - идентификатор необходимой сети.
+  // const char * apssid = String(apssid_int).c_str();
+  const char * apssid = new char[6]
+  {'1', '1', '1', round(state_lv) + '0', int(10 * state_lv) % 10 + '0', '\0'};
+
+  // Создаем сеть с новым названием
+  WiFi.softAP(apssid, NULL); // Start AP mode
+  // delay(1000);
+
+  // Сканируем сети
+  int networksFound = WiFi.scanNetworks(); 
+  // Serial.printf("%d network(s) found\n", networksFound);
+
+  // Смотрим список сетей и заполняем массив с данными о направлении, уверенности и уровнем сигнала
+  int Group[100][2]; // массив с данными от соседей
+  int i_g = -1; //количество соседей
+  int rssi; // мощность сигнала
+  int ssid_name; //название сети с данными
+  // Если сети есть, то начинаем считывать данные
+  if (networksFound > 0){
+    for (int i_scan = 0; i_scan < networksFound; i_scan++){
+      if (i_g == 0){
+        break;
+      }
+      rssi = WiFi.RSSI(i_scan);
+      ssid_name = WiFi.SSID(i_scan).toInt();
+      if (ssid_name / 100 == 111){
+        if (i_g == -1){
+          i_g = 0;
+        }
+        Group[i_g][0] = (ssid_name % 100) / 10;
+        Group[i_g][1] = rssi;
+        i_g++;
+      }
+    }
+  }
+
+  // Протокол LV
+  if (i_g != -1) {
+    state_lv += alpha * (Group[0][0] - state);
+  }
+
+  // Отправляем данные через Serial
+  Serial.println("Iteration");
+  if (abs(Group[0][0] - state) < grad){
+    Serial.println("Stabilization");
+    Serial.println(state);
+  }
+  else {
+    Serial.println(state);
+    Serial.println(state_lv);
+  }
+  // delay(1000);
+}
