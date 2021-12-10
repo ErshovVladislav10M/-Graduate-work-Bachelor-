@@ -2,9 +2,9 @@
 
 // Переменная для синхронизации
 // state и state_lv из отрезка [0, 9]
-bool is_sender = false;
-int state;
-float state_lv;
+bool is_sender = true;
+int state = 0;
+float state_lv = 0;
 
 // Переменные и счетчики
 int n_neighbors = 10; // Количество сосеседей, из которых выбираем
@@ -15,26 +15,26 @@ float grad = 0.2; // разница между state и state_lv
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Start setup");
-  state = 0;
-  state_lv = 0;
 }
 
 
 void loop() {
   // Считать данные из Serial. Если в serial что то есть, то мы считываем
   // его и записывамаем как state [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]. Если нет то state = state_lv
-  // if (Serial.available() > 0){
-  //   state = Serial.parseInt();
-  // }
-  // else if (is_sender){
+  /*if (Serial.available() > 0){
+    state = Serial.parseInt();
+    state_lv = state;
+  }
+  else if (is_sender){
+    state_lv = state;
+  }*/
   if (is_sender){
     state_lv = state;
   }
   else {
     state = round(state_lv);
   }
-  // Serial.println(state);
+  Serial.println(state);
 
   // Записываем данные для передачи соседям в имя сети
   // int apssid_int = 111 * 10 + state_lv; // 111 в начале название - идентификатор необходимой сети.
@@ -58,9 +58,10 @@ void loop() {
   // Если сети есть, то начинаем считывать данные
   if (networksFound > 0){
     for (int i_scan = 0; i_scan < networksFound; i_scan++){
-      if (i_g == 0){
+      if (i_g >= n_neighbors_vibor){
         break;
       }
+
       rssi = WiFi.RSSI(i_scan);
       ssid_name = WiFi.SSID(i_scan).toInt();
       if (ssid_name / 100 == 111){
@@ -75,13 +76,27 @@ void loop() {
   }
 
   // Протокол LV
-  if (i_g != -1) {
-    state_lv += alpha * (Group[0][0] - state);
+  if (i_g != -1){
+    for (int i = 0; i < i_g; i++){
+      state_lv += alpha * (Group[i][0] - state);
+    }
+  }
+
+  // Проверяем стабилизацию
+  bool is_stabilization = true;
+  for (int i = 0; i < i_g; i++){
+    if (abs(Group[i][0] - state) > grad){
+      is_stabilization = false;
+      break;
+    }
   }
 
   // Отправляем данные через Serial
   Serial.println("Iteration");
-  if (abs(Group[0][0] - state) < grad){
+  if (i_g == -1){
+    Serial.println("Not found networks");
+  }
+  else if (is_stabilization){
     Serial.println("Stabilization");
     Serial.println(state);
   }
