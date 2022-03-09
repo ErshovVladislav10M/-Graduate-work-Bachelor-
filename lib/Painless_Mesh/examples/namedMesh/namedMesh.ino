@@ -13,11 +13,11 @@
 Scheduler     userScheduler; // to control your personal task
 namedMesh  mesh;
 
-String nodeName = "logNode 3"; // Name needs to be unique
+String nodeName = "logNode"; // Name needs to be unique
 
-Task taskSendMessage( TASK_SECOND, TASK_FOREVER, []() {
-    String msg = String("This is a message from: ") + nodeName + String(" for logNode 4");
-    String to = "logNode 4";
+Task taskSendMessage( TASK_SECOND*30, TASK_FOREVER, []() {
+    String msg = String("This is a message from: ") + nodeName + String(" for logNode");
+    String to = "logNode";
     mesh.sendSingle(to, msg); 
 }); // start with a one second interval
 
