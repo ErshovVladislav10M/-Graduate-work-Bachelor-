@@ -50,8 +50,8 @@ void loop() {
   int networksFound = WiFi.scanNetworks();
 
   // Смотрим список сетей и заполняем массивы с названием и уровнем сигнала.
-  int ssid_name_g[5];  // n_neighbors_choise = 5
-  int rssi_g[5];  // n_neighbors_choise = 5
+  int ssid_name_g[n_neighbors_choise];
+  int rssi_g[n_neighbors_choise];
   int i_g = 0;  // Количество считанных соседей, с подходящим названием
   int rssi;  // Мощность сигнала
   int ssid_name;  // Название сети с данными
