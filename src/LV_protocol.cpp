@@ -5,10 +5,10 @@
 // 1)Плата - отправитель, данные идут с компьютера (is_sender не проверяется)
 // 2)Плата - отправитель (is_sender == true)
 // 3)Плата - не отправитель (is_sender == false)
-bool is_sender = false;
+bool is_sender = true;
 // state и state_lv из отрезка [0, 9]
-int state = 0;  // Используется для хранения значения сигнала в памяти платы
-float state_lv = 0;  // Используется для принятия и отправления сигнала
+int state = 9;  // Используется для хранения значения сигнала в памяти платы
+float state_lv = 9;  // Используется для принятия и отправления сигнала
 // Если плата оптравитель, то отправляем хранимое в state значение,
 // с помощью state_lv. Иначе state используется для хранения
 // принятого в state_lv сигнала
@@ -40,15 +40,16 @@ void loop() {
   // 111 в начале названия - идентификатор необходимой сети.
   // Используем state_lv с точностью до десятых.
   // Последний символ говорит, что строка кончилась.
+  char first_number = round(state_lv) + '0';
+  char second_number = static_cast<int>(10 * state_lv) % 10 + '0';
   const char * ap_ssid = new char[6]
-  {'1', '1', '1', round(state_lv) + '0', static_cast<int>(10 * state_lv) % 10 + '0', '\0'};
+  {'1', '1', '1', first_number, second_number, '\0'};
 
   // Создаем сеть с новым названием и без пароля.
   WiFi.softAP(ap_ssid, NULL);  // Start AP mode
 
   // Сканируем сети
   int networksFound = WiFi.scanNetworks();
-
   // Смотрим список сетей и заполняем массивы с названием и уровнем сигнала.
   int ssid_name_g[n_neighbors_choise];
   int rssi_g[n_neighbors_choise];
