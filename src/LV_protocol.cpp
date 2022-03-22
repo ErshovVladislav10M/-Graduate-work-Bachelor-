@@ -1,4 +1,4 @@
-#include <WiFi.h>
+/*#include <WiFi.h>
 
 // Переменные для синхронизации
 // Возможно три случая:
@@ -98,3 +98,4 @@ void loop() {
     Serial.println(state_lv);
   }
 }
+*/
