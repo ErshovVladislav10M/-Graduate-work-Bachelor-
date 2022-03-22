@@ -77,6 +77,7 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
                 return;
 
         ssid_name_g[i_g] = ssid_name;
+        rssi_g[i_g] = ppkt->rx_ctrl.rssi;
         i_g++;
     }
 }
@@ -89,14 +90,15 @@ void setup() {
 }
 
 void loop() {
+    // Запускаем перехват сообщений
     if (digitalRead(LED_GPIO_PIN) == LOW)
         digitalWrite(LED_GPIO_PIN, HIGH);
     else
         digitalWrite(LED_GPIO_PIN, LOW);
 
-    // Если в Serial есть сигнал, то мы считываем его и записывамаем в state,
-    // считаем плату отправителем.
-    // Иначе проверяем, является ли плата отправителем.
+    // Если в Serial (ввод в плату) есть сигнал, то мы считываем его и записывамаем в state,
+    // считаем плату отправителем
+    // Иначе проверяем, является ли плата отправителем
     if (Serial.available() > 0) {
     state = Serial.parseInt();
     state_lv = state;
@@ -106,19 +108,19 @@ void loop() {
         state = round(state_lv);
     }
 
-    // Отправление сигнала: запись данных в имя сети.
-    // 111 в начале названия - идентификатор необходимой сети.
-    // Используем state_lv с точностью до десятых.
-    // Последний символ говорит, что строка кончилась.
+    // Отправление сигнала: запись данных в имя сети
+    // 111 в начале названия - идентификатор необходимой сети
+    // Используем state_lv с точностью до десятых
+    // Последний символ говорит, что строка кончилась
     char first_number = round(state_lv) + '0';
     char second_number = static_cast<int>(10 * state_lv) % 10 + '0';
     const char * ap_ssid = new char[6]
     {'1', '1', '1', first_number, second_number, '\0'};
 
-    // Создаем сеть с новым названием и без пароля.
+    // Создаем сеть с новым названием и без пароля
     WiFi.softAP(ap_ssid, NULL);
 
-    // Обновляем данные согласно протоколу LV.
+    // Обновляем данные согласно протоколу LV
     for (int i = 0; i < i_g; i++) {
         state_lv += alpha * (ssid_name_g[i] - state_lv);
     }
@@ -131,7 +133,7 @@ void loop() {
             break;
         }
 
-    // Отправляем данные о синхронизации.
+    // Отправляем данные о синхронизации
     // Serial.println("Iteration");
     if (i_g == 0) {
         Serial.println("Not found networks");
