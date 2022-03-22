@@ -27,9 +27,9 @@ float state_lv = 0;  // Используется для принятия и от
 // принятого в state_lv сигнала
 
 // Переменные и счетчики
-#define n_neighbors_choise 5  // Количество соседей, которые выбираем случайно из n_neighbors
-float ssid_name_g[n_neighbors_choise];
-int rssi_g[n_neighbors_choise];
+#define N_NEIGHBORS_CHOISE 5  // Количество соседей, которые выбираем случайно из n_neighbors
+float ssid_name_g[N_NEIGHBORS_CHOISE];
+int rssi_g[N_NEIGHBORS_CHOISE];
 int i_g = 0;  // Количество считанных соседей, с подходящим названием
 float alpha = 0.5;  // Коэффициент расчета протокола LV (коэффициент доверия)
 float epsilon = 0.2;  // Переменная для проверки синхронизации
@@ -64,7 +64,7 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
     if (type != WIFI_PKT_MGMT)
         return;
 
-    if (i_g >= n_neighbors_choise)
+    if (i_g >= N_NEIGHBORS_CHOISE)
         return;
 
     const wifi_promiscuous_pkt_t *ppkt = reinterpret_cast<wifi_promiscuous_pkt_t *>(buff);
