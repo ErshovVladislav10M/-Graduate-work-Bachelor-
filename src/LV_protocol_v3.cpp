@@ -45,7 +45,7 @@ void wifi_sniffer_init(void) {
     tcpip_adapter_init();
     ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL));
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg) );
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
     ESP_ERROR_CHECK(esp_wifi_set_country(&wifi_country));
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_NULL));
@@ -121,23 +121,21 @@ void update_state_group() {
 }
 
 bool is_stabilization() {
-    bool is_stabilization = true;
     for (int i = 0; i < num_of_rec_mes; i++) {
         for (int j = 0; j < NUM_OF_NODES; j++) {
             if (abs(rec_state_group[i][j] - state_group[j]) > epsilon) {
-                is_stabilization = false;
-                break;
+                return false;
             }
         }
     }
-    return is_stabilization;
+    return true;
 }
 
 void refresh_rec_info() {
     num_of_rec_mes = 0;
     for (int i = 0; i < NUM_OF_NODES; i++) {
         bssid_group[i] = "";
-        rssi_group[i] = -100;
+        rssi_group[i] = -100;  // Minimum signal strength value
     }
 }
 
