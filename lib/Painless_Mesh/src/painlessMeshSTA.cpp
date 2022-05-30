@@ -36,7 +36,7 @@ void ICACHE_FLASH_ATTR StationScan::init(painlessmesh::wifi::Mesh *pMesh,
 // Starts scan for APs whose name is Mesh SSID
 void ICACHE_FLASH_ATTR StationScan::stationScan() {
   using namespace painlessmesh::logger;
-  Log(CONNECTION, "stationScan(): %s\n", ssid.c_str());
+  // Log(CONNECTION, "stationScan(): %s\n", ssid.c_str());
 
 #ifdef ESP32
   WiFi.scanNetworks(true, true);
@@ -51,15 +51,15 @@ void ICACHE_FLASH_ATTR StationScan::stationScan() {
 
 void ICACHE_FLASH_ATTR StationScan::scanComplete() {
   using namespace painlessmesh::logger;
-  Log(CONNECTION, "scanComplete(): Scan finished\n");
+  // Log(CONNECTION, "scanComplete(): Scan finished\n");
 
   aps.clear();
-  Log(CONNECTION, "scanComplete():-- > Cleared old APs.\n");
+  // Log(CONNECTION, "scanComplete():-- > Cleared old APs.\n");
 
   auto num = WiFi.scanComplete();
   if (num == WIFI_SCAN_RUNNING || num == WIFI_SCAN_FAILED) return;
 
-  Log(CONNECTION, "scanComplete(): num = %d\n", num);
+  // Log(CONNECTION, "scanComplete(): num = %d\n", num);
 
   for (auto i = 0; i < num; ++i) {
     WiFi_AP_Record_t record;
@@ -74,15 +74,18 @@ void ICACHE_FLASH_ATTR StationScan::scanComplete() {
     }
 
     record.rssi = WiFi.RSSI(i);
+    if (WiFi.BSSIDstr(i) == "58:BF:25:18:6F:21") continue;
+    if (WiFi.BSSIDstr(i) == "94:B9:7E:E9:9B:FD") continue;
     if (record.rssi == 0) continue;
+    // if (record.rssi < -75) continue;
 
     memcpy((void *)&record.bssid, (void *)WiFi.BSSID(i), sizeof(record.bssid));
     aps.push_back(record);
-    Log(CONNECTION, "\tfound : %s, %ddBm\n", record.ssid.c_str(),
-        (int16_t)record.rssi);
+    //Log(CONNECTION, "\tfound : %s, %ddBm\n", record.ssid.c_str(),
+    //    (int16_t)record.rssi);
   }
 
-  Log(CONNECTION, "\tFound %d nodes\n", aps.size());
+  // Log(CONNECTION, "\tFound %d nodes\n", aps.size());
 
   task.yield([this]() {
     // Task filter all unknown
@@ -103,10 +106,13 @@ void ICACHE_FLASH_ATTR StationScan::filterAPs() {
   auto ap = aps.begin();
   while (ap != aps.end()) {
     auto apNodeId = painlessmesh::tcp::encodeNodeId(ap->bssid);
+    // auto rssi = ap->rssi;
     if (painlessmesh::router::findRoute<painlessmesh::Connection>(
             (*mesh), apNodeId) != NULL) {
       ap = aps.erase(ap);
-    } else {
+    } /*else if (rssi < -75) {
+      ap = aps.erase(ap);
+    } */else {
       ap++;
     }
   }
@@ -114,8 +120,8 @@ void ICACHE_FLASH_ATTR StationScan::filterAPs() {
 
 void ICACHE_FLASH_ATTR StationScan::requestIP(WiFi_AP_Record_t &ap) {
   using namespace painlessmesh::logger;
-  Log(CONNECTION, "connectToAP(): Best AP is %u<---\n",
-      painlessmesh::tcp::encodeNodeId(ap.bssid));
+  // Log(CONNECTION, "connectToAP(): Best AP is %u<---\n",
+  //    painlessmesh::tcp::encodeNodeId(ap.bssid));
   WiFi.begin(ap.ssid.c_str(), password.c_str(), mesh->_meshChannel, ap.bssid);
   return;
 }
@@ -128,9 +134,9 @@ void ICACHE_FLASH_ATTR StationScan::connectToAP() {
 
   if (manual) {
     if ((WiFi.SSID() == ssid) && WiFi.status() == WL_CONNECTED) {
-      Log(CONNECTION,
-          "connectToAP(): Already connected using manual connection. "
-          "Disabling scanning.\n");
+      // Log(CONNECTION,
+      //    "connectToAP(): Already connected using manual connection. "
+      //    "Disabling scanning.\n");
       task.disable();
       return;
     } else {
@@ -150,31 +156,31 @@ void ICACHE_FLASH_ATTR StationScan::connectToAP() {
     if (WiFi.status() == WL_CONNECTED &&
         !(mesh->shouldContainRoot && !layout::isRooted(mesh->asNodeTree()))) {
       // if already connected -> scan slow
-      Log(CONNECTION,
-          "connectToAP(): Already connected, and no unknown nodes found: "
-          "scan rate set to slow\n");
+      // Log(CONNECTION,
+      //    "connectToAP(): Already connected, and no unknown nodes found: "
+      //    "scan rate set to slow\n");
       task.delay(random(2, 4) * SCAN_INTERVAL);
     } else {
       // else scan fast (SCAN_INTERVAL)
-      Log(CONNECTION,
-          "connectToAP(): No unknown nodes found scan rate set to "
-          "normal\n");
+      // Log(CONNECTION,
+      //    "connectToAP(): No unknown nodes found scan rate set to "
+      //    "normal\n");
       task.setInterval(0.5 * SCAN_INTERVAL);
     }
     mesh->stability += min(1000 - mesh->stability, (size_t)25);
   } else {
     if (WiFi.status() == WL_CONNECTED) {
-      Log(CONNECTION,
-          "connectToAP(): Unknown nodes found. Current stability: %s\n",
-          String(mesh->stability).c_str());
+      // Log(CONNECTION,
+      //    "connectToAP(): Unknown nodes found. Current stability: %s\n",
+      //    String(mesh->stability).c_str());
 
       int prob = mesh->stability;
       if (!mesh->shouldContainRoot)
         // Slower when part of bigger network
         prob /= 2 * (1 + layout::size(mesh->asNodeTree()));
       if (!layout::isRooted(mesh->asNodeTree()) && random(0, 1000) < prob) {
-        Log(CONNECTION, "connectToAP(): Reconfigure network: %s\n",
-            String(prob).c_str());
+        // Log(CONNECTION, "connectToAP(): Reconfigure network: %s\n",
+        //    String(prob).c_str());
         // close STA connection, this will trigger station disconnect which
         // will trigger connectToAP()
         mesh->closeConnectionSTA();
@@ -196,9 +202,9 @@ void ICACHE_FLASH_ATTR StationScan::connectToAP() {
                         // we can try the next one
       requestIP(ap);
       // Trying to connect, if that fails we will reconnect later
-      Log(CONNECTION,
-          "connectToAP(): Trying to connect, scan rate set to "
-          "4*normal\n");
+      // Log(CONNECTION,
+      //    "connectToAP(): Trying to connect, scan rate set to "
+      //    "4*normal\n");
       task.delay(2 * SCAN_INTERVAL);
     }
   }

@@ -4,31 +4,31 @@
 // This example shows how to build a mesh with named nodes
 //
 //************************************************************
-#include "namedMesh.h"
+/*#include <namedMesh.h>
 
 #define   MESH_SSID       "whateverYouLike"
 #define   MESH_PASSWORD   "somethingSneaky"
 #define   MESH_PORT       5555
 
-Scheduler     userScheduler; // to control your personal task
+Scheduler     userScheduler;  // to control your personal task
 namedMesh  mesh;
 
-String nodeName = "logNode 3"; // Name needs to be unique
+String nodeName = "logNode 1";  // Name needs to be unique
 
-Task taskSendMessage( TASK_SECOND, TASK_FOREVER, []() {
-    String msg = String("This is a message from: ") + nodeName + String(" for logNode 4");
-    String to = "logNode 4";
+Task taskSendMessage(TASK_SECOND, TASK_FOREVER, []() {
+    String msg = String("This is a message from: 1") + nodeName + String(" for logNode 6");
+    String to = "logNode 6";
     mesh.sendSingle(to, msg); 
-}); // start with a one second interval
+});  // start with a one second interval
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   mesh.setDebugMsgTypes(ERROR | DEBUG | CONNECTION);  // set before init() so that you can see startup messages
 
   mesh.init(MESH_SSID, MESH_PASSWORD, &userScheduler, MESH_PORT);
 
-  mesh.setName(nodeName); // This needs to be an unique name! 
+  mesh.setName(nodeName);  // This needs to be an unique name!
 
   mesh.onReceive([](uint32_t from, String &msg) {
     Serial.printf("Received message by id from: %u, %s\n", from, msg.c_str());
@@ -39,7 +39,7 @@ void setup() {
   });
 
   mesh.onChangedConnections([]() {
-    Serial.printf("Changed connection\n");
+    // Serial.printf("Changed connection\n");
   });
 
   userScheduler.addTask(taskSendMessage);
@@ -50,3 +50,4 @@ void loop() {
   // it will run the user scheduler as well
   mesh.update();
 }
+*/

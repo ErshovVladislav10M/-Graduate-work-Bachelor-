@@ -1,4 +1,4 @@
-#include <WiFi.h>
+/*#include <WiFi.h>
 #include <freertos/FreeRTOS.h>
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>
@@ -18,20 +18,20 @@ uint8_t channel = 1;
 // 1)Плата - отправитель, данные идут с компьютера (is_sender не проверяется)
 // 2)Плата - отправитель (is_sender == true)
 // 3)Плата - не отправитель (is_sender == false)
-bool is_sender = false;
+bool is_sender = true;
 // state и state_lv из отрезка [0, 9]
-int state = 0;  // Используется для хранения значения сигнала в памяти платы
+int state = 9;  // Используется для хранения значения сигнала в памяти платы
 float state_lv = 0;  // Используется для принятия и отправления сигнала
 // Если плата оптравитель, то отправляем хранимое в state значение,
 // с помощью state_lv. Иначе state используется для хранения
 // принятого в state_lv сигнала
 
 // Переменные и счетчики
-#define N_NEIGHBORS_CHOISE 5  // Количество соседей, которые выбираем случайно из n_neighbors
+#define N_NEIGHBORS_CHOISE 10  // Количество соседей, которые выбираем случайно из n_neighbors
 float ssid_name_g[N_NEIGHBORS_CHOISE];
 int rssi_g[N_NEIGHBORS_CHOISE];
 int i_g = 0;  // Количество считанных соседей, с подходящим названием
-float alpha = 0.5;  // Коэффициент расчета протокола LV (коэффициент доверия)
+float alpha = 0.7;  // Коэффициент расчета протокола LV (коэффициент доверия)
 float epsilon = 0.2;  // Переменная для проверки синхронизации
 // Если разница между abs(ssid_name_g[i] - state) < epsilon для всех i, достигается синхронизация
 
@@ -71,6 +71,12 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
 
     if (ppkt->payload[38] == 49 && ppkt->payload[39] == 49 && ppkt->payload[40] == 49) {
         float ssid_name = ((ppkt->payload[41] - '0') * 10 + (ppkt->payload[42] - '0')) / 10;
+        int bssid[6] = {ppkt->payload[10], ppkt->payload[11], ppkt->payload[12],
+            ppkt->payload[13], ppkt->payload[14], ppkt->payload[15]};
+
+        int bssid1[6] = {148, 185, 126, 233, 155, 253};
+        // if (bssid[0] == bssid1[0] && bssid[1] == bssid1[1] && bssid[2] == bssid1[2]
+        //    && bssid[3] == bssid1[3] && bssid[4] == bssid1[4] && bssid[5] == bssid1[5]) return;
 
         for (int i = 0; i < i_g; i++)
             if (ssid_name_g[i] == ssid_name)
@@ -88,6 +94,8 @@ void setup() {
     wifi_sniffer_init();
     pinMode(LED_GPIO_PIN, OUTPUT);
 }
+
+int counter = 0;
 
 void loop() {
     // Запускаем перехват сообщений
@@ -134,9 +142,20 @@ void loop() {
         }
 
     // Отправляем данные о синхронизации
-    // Serial.println("Iteration");
+    // int ideal[9] = {0, 2, 3, 4, 5, 6, 7, 8, 9};
+    // bool find = false;
+    // for (int j = 0; j < 9; j++) {
+        // for (int i = 0; i < i_g; i++)
+            // if (ideal[j] == ssid_name_g[i])
+                // find = true;
+        // if (find == false)
+        //     Serial.print(ideal[j]);
+        // find = false;
+    // }
+    Serial.println();
     if (i_g == 0) {
-        Serial.println("Not found networks");
+        Serial.println("Not found networks ");
+        Serial.println(counter);
     } else if (is_stabilization) {
         Serial.println("Stabilization");
         Serial.println(state);
@@ -147,5 +166,10 @@ void loop() {
     }
 
     i_g = 0;
-    delay(1000);
+    delay(5000);
+
+    if (counter >= 600) ESP.restart();
+    else
+        counter++;
 }
+*/

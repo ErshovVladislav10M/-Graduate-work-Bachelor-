@@ -1,4 +1,300 @@
 make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
-"make.exe" �� ���� ����७��� ��� ���譥�
-��������, �ᯮ��塞�� �ணࠬ��� ��� ������ 䠩���.
+make.exe: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.2
+This program is built by Equation Solution <http://www.Equation.com>.
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sun May 08 15:46:02 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# automatic
+?F = $(notdir $?)
+# default
+.SHELLFLAGS := -c
+# makefile
+MAKEFLAGS = pqrR
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# environment
+PLATFORMIO_IDE = 2.4.3
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# makefile
+CURDIR := c:/Github/-Graduate-work-Bachelor-
+# default
+SHELL := sh.exe
+# environment
+WINDIR = C:\WINDOWS
+# environment
+VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"2b7693ea843d12cbb2e09a3b62281ac8.ru","_translationsConfigFile":"C:\\Users\\ershov.e\\AppData\\Roaming\\Code\\clp\\2b7693ea843d12cbb2e09a3b62281ac8.ru\\tcf.json","_cacheRoot":"C:\\Users\\ershov.e\\AppData\\Roaming\\Code\\clp\\2b7693ea843d12cbb2e09a3b62281ac8.ru","_resolvedLanguagePackCoreLocation":"C:\\Users\\ershov.e\\AppData\\Roaming\\Code\\clp\\2b7693ea843d12cbb2e09a3b62281ac8.ru\\dfd34e8260c270da74b5c2d86d61aee4b6d56977","_corruptedFile":"C:\\Users\\ershov.e\\AppData\\Roaming\\Code\\clp\\2b7693ea843d12cbb2e09a3b62281ac8.ru\\corrupted.info","_languagePackSupport":true}
+# environment
+VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
+# environment
+ONEDRIVE = C:\Users\ershov.e\OneDrive
+# environment
+WEBOTS_HOME = C:\Program Files\Webots
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# makefile
+MAKEFILE_LIST := 
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+GCC = C:\Users\ershov.e\gcc\bin
+# environment
+TMP = C:\Users\ershov.e\AppData\Local\Temp
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# environment
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-6a36ec7d-a0ab-4c5c-88f0-b2d30aa87744-sock
+# environment
+VSCODE_CWD = C:\Users\ershov.e\AppData\Local\Programs\Microsoft VS Code
+# default
+MAKE_HOST := x86_64-w64-mingw32
+# environment
+NO_PROXY = 127.0.0.1
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+CHOCOLATEYLASTPATHUPDATE = 132872422435618661
+# environment
+PROCESSOR_ARCHITECTURE = AMD64
+# environment
+USERPROFILE = C:\Users\ershov.e
+# environment
+CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+VSCODE_LOG_STACK = false
+# environment
+NUMBER_OF_PROCESSORS = 8
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync load
+# automatic
+%F = $(notdir $%)
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_23372_SYJTESAAAZRUZSXK
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+COMPUTERNAME = NB-03-ERSHOV
+# environment
+EQ_LIBRARY_PATH = C:\Users\ershov.e\gcc\x86_64-w64-mingw32\lib
+# environment
+PROGRAMFILES = C:\Program Files
+# default
+.LOADED := 
+# environment
+USERDNSDOMAIN = ISCON.LOCAL
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERNAME = ershov.e
+# environment
+PUBLIC = C:\Users\Public
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\ershov.e\AppData\Roaming\Code\CachedData\dfd34e8260c270da74b5c2d86d61aee4b6d56977
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+COMMONPROGRAMFILES = C:\Program Files\Common Files
+# environment
+LOGONSERVER = \\ISCONDC01
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = ISCON
+# environment
+MAKELEVEL := 0
+# environment
+PLATFORMIO_PATH = C:\Users\ershov.e\.platformio\python3;C:\Program Files\BellSoft\LibericaJDK-11-Full\bin\;C:\Program Files (x86)\BellSoft\LibericaJDK-11-Full\bin\;C:\Users\ershov.e\gcc\bin;C:\Users\ershov.e\gcc\libexec\gcc\x86_64-w64-mingw32\9.2.0;C:\Program Files\BellSoft\LibericaJDK-11\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\2014.2.0.0\lib\extralibs\bin;C:\Program Files\Haskell Platform\2014.2.0.0\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\Haskell Platform\2014.2.0.0\mingw\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\WireGuard\;C:\Program Files\Git\cmd;C:\Program Files\CMake\bin;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\Lib\site-packages\antlr4;C:\JavaLib;C:\Users\ershov.e\AppData\Roaming\cabal\bin;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python39\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\ershov.e\AppData\Local\GitHubDesktop\bin;C:\Users\ershov.e\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\BellSoft\LibericaJDK-11-Full\bin\;C:\JavaLib;;C:\Program Files\BellSoft\LibericaJDK-11-Full\bin\;C:\Program Files (x86)\BellSoft\LibericaJDK-11-Full\bin\;C:\Users\ershov.e\gcc\bin;C:\Users\ershov.e\gcc\libexec\gcc\x86_64-w64-mingw32\9.2.0;C:\Program Files\BellSoft\LibericaJDK-11\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\2014.2.0.0\lib\extralibs\bin;C:\Program Files\Haskell Platform\2014.2.0.0\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\Haskell Platform\2014.2.0.0\mingw\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\WireGuard\;C:\Program Files\Git\cmd;C:\Program Files\CMake\bin;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\Lib\site-packages\antlr4;C:\JavaLib;C:\Users\ershov.e\AppData\Roaming\cabal\bin;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python39\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\ershov.e\AppData\Local\GitHubDesktop\bin;C:\Users\ershov.e\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\BellSoft\LibericaJDK-11-Full\bin\;C:\JavaLib;
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+PATH = C:\Program Files\BellSoft\LibericaJDK-11-Full\bin\;C:\Program Files (x86)\BellSoft\LibericaJDK-11-Full\bin\;C:\Users\ershov.e\gcc\bin;C:\Users\ershov.e\gcc\libexec\gcc\x86_64-w64-mingw32\9.2.0;C:\Program Files\BellSoft\LibericaJDK-11\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\2014.2.0.0\lib\extralibs\bin;C:\Program Files\Haskell Platform\2014.2.0.0\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\Haskell Platform\2014.2.0.0\mingw\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\WireGuard\;C:\Program Files\Git\cmd;C:\Program Files\CMake\bin;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\Lib\site-packages\antlr4;C:\JavaLib;C:\Users\ershov.e\AppData\Roaming\cabal\bin;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python38\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\ershov.e\AppData\Local\Programs\Python\Python39\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\ershov.e\AppData\Local\GitHubDesktop\bin;C:\Users\ershov.e\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\BellSoft\LibericaJDK-11-Full\bin\;C:\JavaLib;
+# environment
+JAVA_HOME = C:\Program Files\BellSoft\LibericaJDK-11-Full\
+# default
+MAKE_VERSION := 4.2
+# environment
+__PSLOCKDOWNPOLICY = 0
+# environment
+CLASSPATH = C:\JavaLib\antlr-4.10-complete.jar
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# environment
+LOCALAPPDATA = C:\Users\ershov.e\AppData\Local
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make.exe
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\c55db173920b298dd91aaea948c71b0a-1.66.2-main-sock
+# environment
+HOMEPATH = \Users\ershov.e
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+SYSTEMROOT = C:\WINDOWS
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# automatic
++F = $(notdir $+)
+# environment
+APPDATA = C:\Users\ershov.e\AppData\Roaming
+# environment
+TEMP = C:\Users\ershov.e\AppData\Local\Temp
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+PLATFORMIO_CALLER = vscode
+# environment
+OPENSSL_IA32CAP = :~0x20000000
+# environment
+LC_ALL = C
+# environment
+CONFIGSETROOT = C:\WINDOWS\ConfigSetRoot
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 8e0c
+# default
+.RECIPEPREFIX := 
+# makefile
+.DEFAULT_GOAL := 
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 23372
+# environment
+USERDOMAIN_ROAMINGPROFILE = ISCON
+# variable set hash-table stats:
+# Load=108/1024=11%, Rehash=0, Collisions=19/126=15%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (key c:/Github/-Graduate-work-Bachelor-, mtime 1646824262ll): 13 files, no impossibilities.
+
+# 13 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+makefile.mak:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# files hash-table stats:
+# Load=6/1024=1%, Rehash=0, Collisions=0/16=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 19 / storage = 145 B / avg = 7 B
+# current buf: size = 8162 B / used = 145 B / count = 19 / avg = 7 B
+
+# strcache performance: lookups = 22 / hit rate = 13%
+# hash-table stats:
+# Load=19/8192=0%, Rehash=0, Collisions=1/22=5%
+# Finished Make data base on Sun May 08 15:46:02 2022
+
  
