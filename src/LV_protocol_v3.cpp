@@ -12,8 +12,6 @@
 
 #define NUM_OF_NODES 3
 #define NUM_OF_NODES_FOR_REC 3  // If there are too many nodes, then the LV protocol reads only the nearest
-#define NODE_INDEX 0  // Indexing from 0 to NUM_OF_NODES - 1
-#define STATE_NODE 9
 
 float state_group[NUM_OF_NODES];
 float rec_state_group[NUM_OF_NODES][NUM_OF_NODES];
@@ -30,11 +28,16 @@ static esp_err_t event_handler(void *ctx, system_event_t *event);
 static void wifi_sniffer_init(void);
 static void wifi_sniffer_packet_handler(void *buff, wifi_promiscuous_pkt_type_t type);
 
+static int get_node_index();
+static int get_state_node();
 static void lv_protocol_init();
 static char *get_ap_ssid();
 static void update_state_group();
 static bool is_stabilization();
 static void refresh_rec_info();
+static void print_status_state_group();
+static void print_state_group();
+static void print_rec_message();
 
 esp_err_t event_handler(void *ctx, system_event_t *event) {
     return ESP_OK;
@@ -74,8 +77,8 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
         }
 
         for (int i = 0; i < NUM_OF_NODES; i++) {
-            rec_state_group[num_of_rec_mes][i] = ((ppkt->payload[41 + 2 * i] - '0') *
-                    10 + (ppkt->payload[42 + 2 * i] - '0')) / 10;
+            rec_state_group[num_of_rec_mes][i] = (10 * static_cast<float>(ppkt->payload[41 + 2 * i] - '0') +
+                    static_cast<float>(ppkt->payload[42 + 2 * i] - '0')) / 10;
         }
 
         bssid_group[num_of_rec_mes] = bssid;
@@ -83,6 +86,16 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
         num_of_rec_mes++;
     }
 }
+
+int get_node_index() {
+    return 0;  // Indexing from 0 to NUM_OF_NODES - 1
+}
+
+int get_state_node() {
+    return 9;
+}
+
+#define get_state_node() 9
 
 void lv_protocol_init() {
     for (int i = 0; i < NUM_OF_NODES; i++) {
@@ -113,11 +126,11 @@ char *get_ap_ssid() {
 void update_state_group() {
     for (int i = 0; i < num_of_rec_mes; i++) {
         for (int j = 0; j < NUM_OF_NODES; j++) {
-            if (j == NODE_INDEX) continue;
+            if (j == get_node_index()) continue;
             state_group[j] += alpha * (rec_state_group[i][j] - state_group[j]);
         }
     }
-    state_group[NODE_INDEX] = STATE_NODE;
+    state_group[get_node_index()] = get_state_node();
 }
 
 bool is_stabilization() {
@@ -139,6 +152,37 @@ void refresh_rec_info() {
     }
 }
 
+void print_status_state_group() {
+    Serial.print("Stabilization status: ");
+    if (num_of_rec_mes == 0) {
+        Serial.println("Not found networks");
+    } else if (is_stabilization()) {
+        Serial.println("Stabilization");
+    } else {
+        Serial.println("Non stabilization");
+    }
+}
+
+void print_state_group() {
+    Serial.println("State group:");
+    for (int i = 0; i < NUM_OF_NODES; i++) {
+        Serial.print("Index node " + String(i) + ": ");
+        Serial.println(state_group[i]);
+    }
+}
+
+void print_rec_message() {
+    Serial.println("Recieved message:");
+    for (int i = 0; i < num_of_rec_mes; i++) {
+        Serial.println("Message from node with BSSID = " + bssid_group[i] + ":");
+        for (int j = 0; j < NUM_OF_NODES; j++) {
+            Serial.print(rec_state_group[i][j]);
+            Serial.print(" ");
+        }
+        Serial.println();
+    }
+}
+
 void setup() {
     Serial.begin(9600);
     delay(10);
@@ -150,6 +194,8 @@ void setup() {
 // int counter = 0;
 
 void loop() {
+    Serial.println("Loop");
+
     if (digitalRead(LED_GPIO_PIN) == LOW)
         digitalWrite(LED_GPIO_PIN, HIGH);
     else
@@ -171,31 +217,11 @@ void loop() {
     update_state_group();
 
     Serial.println();
-    if (num_of_rec_mes == 0) {
-        Serial.println("Not found networks ");
-        for (int j = 0; j < NUM_OF_NODES; j++) {
-            Serial.println(state_group[j]);
-        }
-    } else if (is_stabilization()) {
-        Serial.println("Stabilization");
-        for (int j = 0; j < NUM_OF_NODES; j++) {
-            Serial.println(state_group[j]);
-        }
-    } else {
-        Serial.println("Non stabilization");
-        for (int j = 0; j < NUM_OF_NODES; j++) {
-            Serial.println(state_group[j]);
-        }
-        Serial.println();
-        for (int i = 0; i < num_of_rec_mes; i++) {
-            for (int j = 0; j < NUM_OF_NODES; j++) {
-                Serial.print(rec_state_group[i][j]);
-                Serial.print(" ");
-            }
-            Serial.println();
-        }
-        Serial.println();
-    }
+    print_status_state_group();
+    Serial.println();
+    print_state_group();
+    Serial.println();
+    print_rec_message();
 
     refresh_rec_info();
     delay(5000);
