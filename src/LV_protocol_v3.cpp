@@ -19,8 +19,6 @@ String bssid_group[NUM_OF_NODES];
 int rssi_group[NUM_OF_NODES];
 
 int num_of_rec_mes = 0;
-const float alpha = 0.7;  // Algorithm sensitivity factor
-const float epsilon = 0.2;  // Epsilon consensus
 
 static wifi_country_t wifi_country = {.cc = "CN", .schan = 1, .nchan = 13};
 
@@ -30,6 +28,12 @@ static void wifi_sniffer_packet_handler(void *buff, wifi_promiscuous_pkt_type_t 
 
 static int get_node_index();
 static int get_state_node();
+static float *get_state_group();
+static String *get_bssid_group();
+static int *get_rssi_group();
+static float get_alpha();  // Algorithm sensitivity factor
+static float get_epsilon();  // Epsilon consensus
+
 static void lv_protocol_init();
 static char *get_ap_ssid();
 static void update_state_group();
@@ -95,6 +99,26 @@ int get_state_node() {
     return 9;
 }
 
+float *get_state_group() {
+    return state_group;
+}
+
+String *get_bssid_group() {
+    return bssid_group;
+}
+
+int *get_rssi_group() {
+    return rssi_group;
+}
+
+float get_alpha() {
+    return 0.7;
+}
+
+float get_epsilon() {
+    return 0.2;
+}
+
 #define get_state_node() 9
 
 void lv_protocol_init() {
@@ -127,7 +151,7 @@ void update_state_group() {
     for (int i = 0; i < num_of_rec_mes; i++) {
         for (int j = 0; j < NUM_OF_NODES; j++) {
             if (j == get_node_index()) continue;
-            state_group[j] += alpha * (rec_state_group[i][j] - state_group[j]);
+            state_group[j] += get_alpha() * (rec_state_group[i][j] - state_group[j]);
         }
     }
     state_group[get_node_index()] = get_state_node();
@@ -136,7 +160,7 @@ void update_state_group() {
 bool is_stabilization() {
     for (int i = 0; i < num_of_rec_mes; i++) {
         for (int j = 0; j < NUM_OF_NODES; j++) {
-            if (abs(rec_state_group[i][j] - state_group[j]) > epsilon) {
+            if (abs(rec_state_group[i][j] - state_group[j]) > get_epsilon()) {
                 return false;
             }
         }
