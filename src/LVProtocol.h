@@ -22,11 +22,13 @@ int get_node_index();
 float get_state_node();
 float get_alpha();  // Algorithm sensitivity factor
 float get_epsilon();  // Epsilon consensus
+int get_num_of_rec_mes();
 
 void set_node_index(int index);
 void set_state_node(float state);
 void set_alpha(float a);
 void set_epsilon(float e);
+void set_num_of_rec_mes(int num);
 
 void lv_protocol_init();
 char *create_message();

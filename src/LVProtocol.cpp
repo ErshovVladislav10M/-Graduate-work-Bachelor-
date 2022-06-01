@@ -10,6 +10,81 @@
 
 #include <LVProtocol.h>
 
+class LVProtocolSettings {
+    int num_of_nodes = 3;
+    int num_of_nodes_for_rec = 3;  // If there are too many nodes, then the LV protocol reads only the nearest
+
+    int node_index = 0;  // Indexing from 0 to num_of_nodes - 1
+    float state_node = 9;
+
+    int alpha = 0.7;
+    int epsilon = 0.2;
+
+    float *state_group;
+    float **rec_state_group;
+    String *bssid_group;
+    int *rssi_group;
+
+    int num_of_rec_mes = 0;
+
+ public:
+    int get_num_of_nodes() {
+        return num_of_nodes;
+    }
+
+    int get_num_of_nodes_for_rec() {
+        return num_of_nodes_for_rec;
+    }
+
+    void set_num_of_nodes(int num) {
+        num_of_nodes = num;
+    }
+
+    void set_num_of_nodes_for_rec(int num) {
+        num_of_nodes_for_rec = num;
+    }
+
+    int get_node_index() {
+        return node_index;
+    }
+
+    float get_state_node() {
+        return state_node;
+    }
+
+    float get_alpha() {
+        return alpha;
+    }
+
+    float get_epsilon() {
+        return epsilon;
+    }
+
+    int get_num_of_rec_mes() {
+        return num_of_rec_mes;
+    }
+
+    void set_node_index(int index) {
+        node_index = index;
+    }
+
+    void set_state_node(float state) {
+        state_node = state;
+    }
+
+    void set_alpha(float a) {
+        alpha = a;
+    }
+
+    void set_epsilon(float e) {
+        epsilon = e;
+    }
+
+    void set_num_of_rec_mes(int num) {
+        num_of_rec_mes = num;
+    }
+};
+
 int num_of_nodes = 3;
 int num_of_nodes_for_rec = 3;  // If there are too many nodes, then the LV protocol reads only the nearest
 
@@ -105,6 +180,10 @@ float get_epsilon() {
     return epsilon;
 }
 
+int get_num_of_rec_mes() {
+    return num_of_rec_mes;
+}
+
 void set_node_index(int index) {
     node_index = index;
 }
@@ -119,6 +198,10 @@ void set_alpha(float a) {
 
 void set_epsilon(float e) {
     epsilon = e;
+}
+
+void set_num_of_rec_mes(int num) {
+    num_of_rec_mes = num;
 }
 
 void lv_protocol_init() {
