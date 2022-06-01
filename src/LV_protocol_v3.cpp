@@ -4,20 +4,27 @@
 
 #define LED_GPIO_PIN 5
 
+LVProtocolSettings settings;
+LVProtocolState state;
+LVProtocolManagerMessage manager;
+
 void setup() {
     Serial.begin(9600);
     delay(10);
 
     wifi_sniffer_init();
 
-    set_num_of_nodes(3);
-    set_num_of_nodes_for_rec(3);
-    set_node_index(0);
-    set_state_node(9);
-    set_alpha(0.7);
-    set_epsilon(0.2);
+    int num_of_nodes = 3;
+    int num_of_nodes_for_rec = 3;
+    double alpha = 0.7;
+    double epsilon = 0.2;
+    LVProtocolSettings settings(num_of_nodes, num_of_nodes_for_rec, alpha, epsilon);
 
-    lv_protocol_init();
+    int node_index = 0;
+    double state_node = 9;
+    LVProtocolState state(settings, node_index, state_node);
+
+    LVProtocolManagerMessage manager(settings);
 
     pinMode(LED_GPIO_PIN, OUTPUT);
 }
@@ -31,19 +38,19 @@ void loop() {
         digitalWrite(LED_GPIO_PIN, LOW);
     }
 
-    set_state_node(9);
-    char *message = create_message();
+    state.set_state_node(9);
+    char *message = create_message(settings, state);
     send_message(message);
 
-    update_state_group();
+    state.update_state_group(settings, manager);
 
     Serial.println();
-    print_status_state_group();
+    state.print_state_group(settings);
     Serial.println();
-    print_state_group();
+    state.print_state_group(settings);
     Serial.println();
-    print_rec_message();
+    manager.print_rec_message(settings);
 
-    refresh_rec_info();
+    manager.refresh_rec_info(settings);
     delay(5000);
 }
