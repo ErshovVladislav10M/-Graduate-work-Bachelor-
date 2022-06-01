@@ -29,7 +29,8 @@ void set_alpha(float a);
 void set_epsilon(float e);
 
 void lv_protocol_init();
-char *get_ap_ssid();
+char *create_message();
+void send_message(char *message);
 void update_state_group();
 bool is_stabilization();
 void refresh_rec_info();

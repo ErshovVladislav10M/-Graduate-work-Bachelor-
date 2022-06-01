@@ -140,7 +140,7 @@ void lv_protocol_init() {
     }
 }
 
-char *get_ap_ssid() {
+char *create_message() {
     char *ap_ssid = new char[4 + num_of_nodes * 2]
     {'1', '1', '1'};  // Group ID
     for (int i = 0; i < num_of_nodes; i++) {
@@ -152,6 +152,10 @@ char *get_ap_ssid() {
     ap_ssid[3 + num_of_nodes * 2] = '\0';
 
     return ap_ssid;
+}
+
+void send_message(char *message) {
+    WiFi.softAP(message, NULL);
 }
 
 // Update data according to the LV-protocol

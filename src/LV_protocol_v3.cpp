@@ -32,8 +32,8 @@ void loop() {
     }
 
     set_state_node(9);
-    char *ap_ssid = get_ap_ssid();
-    WiFi.softAP(ap_ssid, NULL);
+    char *message = create_message();
+    send_message(message);
 
     update_state_group();
 
