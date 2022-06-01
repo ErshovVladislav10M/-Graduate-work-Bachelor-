@@ -58,10 +58,6 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
                     String(ppkt->payload[12], HEX) + ":" + String(ppkt->payload[13], HEX) + ":" +
                     String(ppkt->payload[14], HEX) + ":" + String(ppkt->payload[15], HEX);
 
-        // int bssid1[6] = {148, 185, 126, 233, 155, 253};
-        // if (bssid[0] == bssid1[0] && bssid[1] == bssid1[1] && bssid[2] == bssid1[2]
-        //    && bssid[3] == bssid1[3] && bssid[4] == bssid1[4] && bssid[5] == bssid1[5]) return;
-
         for (int i = 0; i < num_of_rec_mes; i++) {
             if (bssid_group[i] == bssid) return;
         }
