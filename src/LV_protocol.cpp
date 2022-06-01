@@ -1,4 +1,4 @@
-/*#include <WiFi.h>
+#include <WiFi.h>
 #include <freertos/FreeRTOS.h>
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>
@@ -172,4 +172,3 @@ void loop() {
     else
         counter++;
 }
-*/
