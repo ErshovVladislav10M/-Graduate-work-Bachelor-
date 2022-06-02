@@ -23,10 +23,19 @@ float get_state_node();
 float get_alpha();  // Algorithm sensitivity factor
 float get_epsilon();  // Epsilon consensus
 
+float *get_state_group();
+float **get_rec_state_group();
+String *get_bssid_group();
+int *get_rssi_group();
+
+int get_num_of_rec_mes();
+
 void set_node_index(int index);
 void set_state_node(float state);
 void set_alpha(float a);
 void set_epsilon(float e);
+
+void set_num_of_rec_mes(int num);
 
 void lv_protocol_init();
 char *create_message();
