@@ -23,7 +23,7 @@ void setup() {
 }
 
 void loop() {
-    Serial.println("Loop");
+    Serial.println("------Loop------");
 
     if (digitalRead(LED_GPIO_PIN) == LOW) {
         digitalWrite(LED_GPIO_PIN, HIGH);
@@ -43,6 +43,7 @@ void loop() {
     print_state_group();
     Serial.println();
     print_rec_message();
+    Serial.println();
 
     refresh_rec_info();
     delay(5000);

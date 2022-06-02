@@ -16,8 +16,8 @@ int num_of_nodes_for_rec = 3;  // If there are too many nodes, then the LV proto
 int node_index = 0;  // Indexing from 0 to num_of_nodes - 1
 float state_node = 9;
 
-int alpha = 0.7;
-int epsilon = 0.2;
+float alpha = 0.7;
+float epsilon = 0.2;
 
 float *state_group;
 float **rec_state_group;
