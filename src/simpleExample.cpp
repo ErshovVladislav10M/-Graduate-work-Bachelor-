@@ -14,7 +14,7 @@ void setup() {
     set_num_of_nodes_for_rec(3);
     set_node_index(0);
     set_state_node(9);
-    set_alpha(0.7);
+    set_alpha(0.9);
     set_epsilon(0.2);
 
     lv_protocol_init();

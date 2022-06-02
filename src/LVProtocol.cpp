@@ -58,18 +58,18 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
                     String(ppkt->payload[12], HEX) + ":" + String(ppkt->payload[13], HEX) + ":" +
                     String(ppkt->payload[14], HEX) + ":" + String(ppkt->payload[15], HEX);
 
-        for (int i = 0; i < num_of_rec_mes; i++) {
+        for (int i = 0; i < get_num_of_rec_mes(); i++) {
             if (bssid_group[i] == bssid) return;
         }
 
-        for (int i = 0; i < num_of_nodes; i++) {
-            rec_state_group[num_of_rec_mes][i] = (10 * static_cast<float>(ppkt->payload[41 + 2 * i] - '0') +
+        for (int i = 0; i < get_num_of_nodes(); i++) {
+            rec_state_group[get_num_of_rec_mes()][i] = (10 * static_cast<float>(ppkt->payload[41 + 2 * i] - '0') +
                     static_cast<float>(ppkt->payload[42 + 2 * i] - '0')) / 10;
         }
 
-        bssid_group[num_of_rec_mes] = bssid;
-        rssi_group[num_of_rec_mes] = ppkt->rx_ctrl.rssi;
-        num_of_rec_mes++;
+        bssid_group[get_num_of_rec_mes()] = bssid;
+        rssi_group[get_num_of_rec_mes()] = ppkt->rx_ctrl.rssi;
+        set_num_of_rec_mes(get_num_of_rec_mes() + 1);
     }
 }
 
@@ -162,6 +162,7 @@ void lv_protocol_init() {
         bssid_group[i] = "";
         rssi_group[i] = -100;
     }
+    state_group[get_node_index()] = get_state_node();
 }
 
 char *create_message() {
