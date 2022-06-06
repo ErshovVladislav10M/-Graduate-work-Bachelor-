@@ -1,2 +1,2 @@
 # -Graduate-work-Bachelor-
-Method of data transmission in decentralized networks of mobile nodes
+Application of the local voting protocol for state synchronization in a decentralized network of mobile nodes
