@@ -1,3 +1,6 @@
+#ifndef LV_PROTOCOL
+#define ADD_H
+
 #include <WiFi.h>
 #include <freertos/FreeRTOS.h>
 #include <esp_wifi.h>
@@ -46,3 +49,5 @@ void refresh_rec_info();
 void print_status_state_group();
 void print_state_group();
 void print_rec_message();
+
+#endif
