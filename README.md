@@ -17,7 +17,14 @@ The local voting protocol is responsible for the synchronization on each node. I
 
 To create the most efficient method of synchronization, you need to abandon the routing when passing messages. And the representation of the state of the system from each node should be broadcast to all neighbors.
 
-<img src="[https://electronov.net/wp-content/uploads/2017/09/esp32-board-front-600.jpg](https://www.overleaf.com/project/628cec6c0db8569546473157/file/629088c1e61cdbe8adb78cea)" width="30%">
+## Implementation
+To implement the exchange of views using WiFi technology, the Arduino library of the same name is used.
+
+The following message format is chosen to transmit the presentation - the payload is immediately after the IEEE 802.11 MAC header. Next, the library forms a WiFi frame and passes it further up the stack. Information is received by viewing WiFi frames without connecting to a WiFi point (sniffer), that is, there is no time loss for this connection. Next, useful information is extracted from the captured frames.
+
+The WiFi package, with which the developed method works, is formed by the WiFi library and includes service information - about the signal strength and the WiFi channel on which the transmission was made, as well as the WiFi frame. The WiFi frame, in turn, contains service information - a MAC header, payload information, and a checksum.
+
+Thanks to this approach, one message exchange-receive cycle takes less than 100 milliseconds.
 
 ### Recommended board to use - ESP32
 <img src="https://electronov.net/wp-content/uploads/2017/09/esp32-board-front-600.jpg" width="30%">
