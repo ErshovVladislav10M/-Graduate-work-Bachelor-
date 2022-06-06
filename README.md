@@ -10,5 +10,14 @@ To create a well-functioning decentralized group on each node, it is necessary t
 
 For the coordinated operation of all nodes, the representation on each node, ideally, should be the same - the task of synchronizing the representations of the state of the system on all nodes appears.
 
+## Method
+The state synchronization method in a decentralized network of mobile nodes includes a synchronization method - a local voting protocol and a data transmission method.
+
+The local voting protocol is responsible for the synchronization on each node. It receives views from other nodes, generates a view of the node about the state of the system based on the received views and data from the aggregates and sensors of the node. Next, the generated view is sent using the data transfer method.
+
+To create the most efficient method of synchronization, you need to abandon the routing when passing messages. And the representation of the state of the system from each node should be broadcast to all neighbors.
+
+<img src="[https://electronov.net/wp-content/uploads/2017/09/esp32-board-front-600.jpg](https://www.overleaf.com/project/628cec6c0db8569546473157/file/629088c1e61cdbe8adb78cea)" width="30%">
+
 ### Recommended board to use - ESP32
 <img src="https://electronov.net/wp-content/uploads/2017/09/esp32-board-front-600.jpg" width="30%">
