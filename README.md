@@ -1,5 +1,4 @@
-# -Graduate-work-Bachelor-
-Application of the local voting protocol for state synchronization in a decentralized network of mobile nodes
+# Application of the local voting protocol for state synchronization in a decentralized network of mobile nodes
 
 ## Introduction
 Modern realities create new problems and tasks that can be effectively solved with the help of groups of robots.
