@@ -29,5 +29,5 @@ Thanks to this approach, one message exchange-receive cycle takes less than 100 
 <img src="https://electronov.net/wp-content/uploads/2017/09/esp32-board-front-600.jpg" width="30%">
 
 ### Recommended source code editor - VS Code with PlatformIO IDE extension
-https://code.visualstudio.com/
-https://platformio.org/platformio-ide
+- https://code.visualstudio.com/
+- https://platformio.org/platformio-ide
