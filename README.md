@@ -27,6 +27,7 @@ Thanks to this approach, one message exchange-receive cycle takes less than 100 
 
 ### Recommended board to use - ESP32
 https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf
+
 <img src="https://electronov.net/wp-content/uploads/2017/09/esp32-board-front-600.jpg" width="30%">
 
 ### Recommended source code editor - VS Code with PlatformIO IDE extension
