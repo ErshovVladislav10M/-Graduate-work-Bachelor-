@@ -31,7 +31,7 @@ void loop() {
         digitalWrite(LED_GPIO_PIN, LOW);
     }
 
-    set_state_node(9);  // Get your's state node
+    set_state_node(9);  // Set your's state node
     char *message = create_message();
     send_message(message);
 
