@@ -1,4 +1,4 @@
-#include <WiFi.h>
+/*#include <WiFi.h>
 
 #include <LVProtocol.h>
 
@@ -47,4 +47,4 @@ void loop() {
 
     refresh_rec_info();
     delay(5000);
-}
+}*/
