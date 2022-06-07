@@ -2,8 +2,6 @@
 
 #include <LVProtocol.h>
 
-#define LED_GPIO_PIN 5
-
 void setup() {
     Serial.begin(9600);
     delay(10);
@@ -18,18 +16,10 @@ void setup() {
     set_epsilon(0.2);
 
     lv_protocol_init();
-
-    pinMode(LED_GPIO_PIN, OUTPUT);
 }
 
 void loop() {
     Serial.println("------Loop------");
-
-    if (digitalRead(LED_GPIO_PIN) == LOW) {
-        digitalWrite(LED_GPIO_PIN, HIGH);
-    } else {
-        digitalWrite(LED_GPIO_PIN, LOW);
-    }
 
     set_state_node(9);  // Set your's state node
     char *message = create_message();
