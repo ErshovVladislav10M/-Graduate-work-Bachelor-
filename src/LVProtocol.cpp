@@ -48,8 +48,8 @@ void wifi_sniffer_init(void) {
 
 void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
     if (type != WIFI_PKT_MGMT) return;
-    if (num_of_rec_mes >= get_num_of_nodes_for_rec()) return;
-    if (num_of_rec_mes >= get_num_of_nodes()) return;
+    if (num_of_rec_mes >= num_of_nodes_for_rec) return;
+    if (num_of_rec_mes >= num_of_nodes) return;
 
     const wifi_promiscuous_pkt_t *ppkt = reinterpret_cast<wifi_promiscuous_pkt_t *>(buff);
 
@@ -58,18 +58,18 @@ void wifi_sniffer_packet_handler(void* buff, wifi_promiscuous_pkt_type_t type) {
                     String(ppkt->payload[12], HEX) + ":" + String(ppkt->payload[13], HEX) + ":" +
                     String(ppkt->payload[14], HEX) + ":" + String(ppkt->payload[15], HEX);
 
-        for (int i = 0; i < get_num_of_rec_mes(); i++) {
+        for (int i = 0; i < num_of_rec_mes; i++) {
             if (bssid_group[i] == bssid) return;
         }
 
-        for (int i = 0; i < get_num_of_nodes(); i++) {
-            rec_state_group[get_num_of_rec_mes()][i] = (10 * static_cast<float>(ppkt->payload[41 + 2 * i] - '0') +
+        for (int i = 0; i < num_of_nodes; i++) {
+            rec_state_group[num_of_rec_mes][i] = (10 * static_cast<float>(ppkt->payload[41 + 2 * i] - '0') +
                     static_cast<float>(ppkt->payload[42 + 2 * i] - '0')) / 10;
         }
 
-        bssid_group[get_num_of_rec_mes()] = bssid;
-        rssi_group[get_num_of_rec_mes()] = ppkt->rx_ctrl.rssi;
-        set_num_of_rec_mes(get_num_of_rec_mes() + 1);
+        bssid_group[num_of_rec_mes] = bssid;
+        rssi_group[num_of_rec_mes] = ppkt->rx_ctrl.rssi;
+        num_of_rec_mes++;
     }
 }
 
@@ -77,12 +77,12 @@ int get_num_of_nodes() {
     return num_of_nodes;
 }
 
-int get_num_of_nodes_for_rec() {
-    return num_of_nodes_for_rec;
-}
-
 void set_num_of_nodes(int num) {
     num_of_nodes = num;
+}
+
+int get_num_of_nodes_for_rec() {
+    return num_of_nodes_for_rec;
 }
 
 void set_num_of_nodes_for_rec(int num) {
@@ -93,16 +93,32 @@ int get_node_index() {
     return node_index;
 }
 
+void set_node_index(int index) {
+    node_index = index;
+}
+
 float get_state_node() {
     return state_node;
+}
+
+void set_state_node(float state) {
+    state_node = state;
 }
 
 float get_alpha() {
     return alpha;
 }
 
+void set_alpha(float a) {
+    alpha = a;
+}
+
 float get_epsilon() {
     return epsilon;
+}
+
+void set_epsilon(float e) {
+    epsilon = e;
 }
 
 float *get_state_group() {
@@ -125,56 +141,36 @@ int get_num_of_rec_mes() {
     return num_of_rec_mes;
 }
 
-void set_node_index(int index) {
-    node_index = index;
-}
-
-void set_state_node(float state) {
-    state_node = state;
-}
-
-void set_alpha(float a) {
-    alpha = a;
-}
-
-void set_epsilon(float e) {
-    epsilon = e;
-}
-
-void set_num_of_rec_mes(int num) {
-    num_of_rec_mes = num;
-}
-
 void lv_protocol_init() {
-    state_group = new float[get_num_of_nodes()];
-    rec_state_group = new float *[get_num_of_nodes()];
-    for (int i = 0; i < get_num_of_nodes(); i++) {
-        rec_state_group[i] = new float[get_num_of_nodes()];
+    state_group = new float[num_of_nodes];
+    rec_state_group = new float *[num_of_nodes];
+    for (int i = 0; i < num_of_nodes; i++) {
+        rec_state_group[i] = new float[num_of_nodes];
     }
-    bssid_group = new String[get_num_of_nodes()];
-    rssi_group = new int[get_num_of_nodes()];
+    bssid_group = new String[num_of_nodes];
+    rssi_group = new int[num_of_nodes];
 
-    for (int i = 0; i < get_num_of_nodes(); i++) {
-        for (int j = 0; j < get_num_of_nodes(); j++) {
+    for (int i = 0; i < num_of_nodes; i++) {
+        for (int j = 0; j < num_of_nodes; j++) {
             rec_state_group[i][j] = 0;
         }
         state_group[i] = 0;
         bssid_group[i] = "";
         rssi_group[i] = -100;
     }
-    state_group[get_node_index()] = get_state_node();
+    state_group[node_index] = state_node;
 }
 
 char *create_message() {
-    char *ap_ssid = new char[4 + get_num_of_nodes() * 2]
+    char *ap_ssid = new char[4 + num_of_nodes * 2]
     {'1', '1', '1'};  // Group ID
-    for (int i = 0; i < get_num_of_nodes(); i++) {
-        char first_number = static_cast<int>(get_state_group()[i]) + '0';
-        char second_number = static_cast<int>(10 * get_state_group()[i]) % 10 + '0';
+    for (int i = 0; i < num_of_nodes; i++) {
+        char first_number = static_cast<int>(state_group[i]) + '0';
+        char second_number = static_cast<int>(10 * state_group[i]) % 10 + '0';
         ap_ssid[3 + 2 * i] = first_number;
         ap_ssid[4 + 2 * i] = second_number;
     }
-    ap_ssid[3 + get_num_of_nodes() * 2] = '\0';
+    ap_ssid[3 + num_of_nodes * 2] = '\0';
 
     return ap_ssid;
 }
@@ -185,19 +181,19 @@ void send_message(char *message) {
 
 // Update data according to the LV-protocol
 void update_state_group() {
-    for (int i = 0; i < get_num_of_rec_mes(); i++) {
-        for (int j = 0; j < get_num_of_nodes(); j++) {
-            if (j == get_node_index()) continue;
-            state_group[j] += get_alpha() * (get_rec_state_group()[i][j] - get_state_group()[j]);
+    for (int i = 0; i < num_of_rec_mes; i++) {
+        for (int j = 0; j < num_of_nodes; j++) {
+            if (j == node_index) continue;
+            state_group[j] += alpha * (rec_state_group[i][j] - state_group[j]);
         }
     }
-    state_group[get_node_index()] = get_state_node();
+    state_group[node_index] = state_node;
 }
 
 bool is_stabilization() {
-    for (int i = 0; i < get_num_of_rec_mes(); i++) {
-        for (int j = 0; j < get_num_of_nodes(); j++) {
-            if (abs(get_rec_state_group()[i][j] - get_state_group()[j]) > get_epsilon()) {
+    for (int i = 0; i < num_of_rec_mes; i++) {
+        for (int j = 0; j < num_of_nodes; j++) {
+            if (abs(rec_state_group[i][j] - state_group[j]) > epsilon) {
                 return false;
             }
         }
@@ -206,8 +202,8 @@ bool is_stabilization() {
 }
 
 void refresh_rec_info() {
-    set_num_of_rec_mes(0);
-    for (int i = 0; i < get_num_of_nodes(); i++) {
+    num_of_rec_mes = 0;
+    for (int i = 0; i < num_of_nodes; i++) {
         bssid_group[i] = "";
         rssi_group[i] = -100;  // Minimum signal strength value
     }
@@ -215,7 +211,7 @@ void refresh_rec_info() {
 
 void print_status_state_group() {
     Serial.print("Network status: ");
-    if (get_num_of_rec_mes() == 0) {
+    if (num_of_rec_mes == 0) {
         Serial.println("Not found networks");
     } else if (is_stabilization()) {
         Serial.println("Stabilization");
@@ -226,18 +222,18 @@ void print_status_state_group() {
 
 void print_state_group() {
     Serial.println("State group:");
-    for (int i = 0; i < get_num_of_nodes(); i++) {
+    for (int i = 0; i < num_of_nodes; i++) {
         Serial.print("Index node " + String(i) + ": ");
-        Serial.println(get_state_group()[i]);
+        Serial.println(state_group[i]);
     }
 }
 
 void print_rec_message() {
     Serial.println("Recieved message:");
-    for (int i = 0; i < get_num_of_rec_mes(); i++) {
-        Serial.println("Message from node with BSSID = " + get_bssid_group()[i] + " :");
-        for (int j = 0; j < get_num_of_nodes(); j++) {
-            Serial.print(get_rec_state_group()[i][j]);
+    for (int i = 0; i < num_of_rec_mes; i++) {
+        Serial.println("Message from node with BSSID = " + bssid_group[i] + " :");
+        for (int j = 0; j < num_of_nodes; j++) {
+            Serial.print(rec_state_group[i][j]);
             Serial.print(" ");
         }
         Serial.println();
