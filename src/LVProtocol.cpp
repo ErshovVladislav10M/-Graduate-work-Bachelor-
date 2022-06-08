@@ -89,19 +89,15 @@ void set_num_of_nodes_for_rec(int num) {
     num_of_nodes_for_rec = num;
 }
 
-int get_node_index() {
+int get_this_node_index() {
     return node_index;
 }
 
-void set_node_index(int index) {
+void set_this_node_index(int index) {
     node_index = index;
 }
 
-float get_state_node() {
-    return state_node;
-}
-
-void set_state_node(float state) {
+void set_state_this_node(float state) {
     state_node = state;
 }
 
@@ -121,20 +117,38 @@ void set_epsilon(float e) {
     epsilon = e;
 }
 
-float *get_state_group() {
-    return state_group;
+float get_state_node(int ind_node) {
+    return state_group[ind_node];
 }
 
-float **get_rec_state_group() {
-    return rec_state_group;
+float *get_rec_message(String bssid) {
+    for (int i = 0; i < num_of_rec_mes; i++) {
+        if (bssid_group[i] == bssid) {
+            float *ans = new float[num_of_rec_mes];
+            for (int j = 0; j < num_of_rec_mes; j++) {
+                ans[j] = rec_state_group[i][j];
+            }
+            return ans;
+        }
+    }
+    Serial.println("Not found message with bssid: " + bssid);
+    return NULL;
 }
 
-String *get_bssid_group() {
-    return bssid_group;
+String *get_bssid_rec_messages() {
+    String *ans = new String[num_of_rec_mes];
+    for (int j = 0; j < num_of_rec_mes; j++) {
+        ans[j] = bssid_group[j];
+    }
+    return ans;
 }
 
 int *get_rssi_group() {
-    return rssi_group;
+    int *ans = new int[num_of_rec_mes];
+    for (int j = 0; j < num_of_rec_mes; j++) {
+        ans[j] = rssi_group[j];
+    }
+    return ans;
 }
 
 int get_num_of_rec_mes() {
