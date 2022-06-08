@@ -28,6 +28,9 @@ int num_of_rec_mes = 0;
 
 wifi_country_t wifi_country = {.cc = "CN", .schan = 1, .nchan = 13};
 
+esp_err_t event_handler(void *ctx, system_event_t *event);
+void wifi_sniffer_packet_handler(void *buff, wifi_promiscuous_pkt_type_t type);
+
 esp_err_t event_handler(void *ctx, system_event_t *event) {
     return ESP_OK;
 }

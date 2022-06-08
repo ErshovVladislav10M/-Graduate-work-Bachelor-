@@ -1,16 +1,9 @@
-#include <WiFi.h>
-#include <freertos/FreeRTOS.h>
-#include <esp_wifi.h>
-#include <esp_wifi_types.h>
-#include <esp_system.h>
-#include <esp_event.h>
-#include <esp_event_loop.h>
-#include <nvs_flash.h>
-#include <driver/gpio.h>
+#ifndef SRC_LVPROTOCOL_H_
+#define SRC_LVPROTOCOL_H_
 
-esp_err_t event_handler(void *ctx, system_event_t *event);
+#include <WiFi.h>
+
 void wifi_sniffer_init(void);
-void wifi_sniffer_packet_handler(void *buff, wifi_promiscuous_pkt_type_t type);
 
 int get_num_of_nodes();
 int get_num_of_nodes_for_rec();
@@ -44,3 +37,5 @@ void refresh_rec_info();
 void print_status_state_group();
 void print_state_group();
 void print_rec_message();
+
+#endif  // SRC_LVPROTOCOL_H_
