@@ -10,8 +10,8 @@ void setup() {
 
     set_num_of_nodes(3);
     set_num_of_nodes_for_rec(3);
-    set_this_node_index(0);
-    set_state_this_node(9);
+    set_this_node_index(2);
+    set_state_this_node(1);
     set_alpha(0.9);
     set_epsilon(0.2);
 
@@ -21,7 +21,7 @@ void setup() {
 void loop() {
     Serial.println("------Loop------");
 
-    set_state_this_node(9);  // Set your's state node
+    set_state_this_node(1);  // Set your's state node
     char *message = create_message();
     send_message(message);
 
